@@ -16,9 +16,9 @@ namespace GoogleAnalytics
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
         {
-            var kvClient = new SecretClient(new Uri(Environment.GetEnvironmentVariable("https://azurekeyvault123456.vault.azure.net/")), new ManagedIdentityCredential());
-            string keyJson = kvClient.GetSecret("GAOAuthTokan").Value.Value;
-            
+            var kvClient = new SecretClient(new Uri(Environment.GetEnvironmentVariable("https://keyvaultaviral.vault.azure.net/")), new ManagedIdentityCredential());
+            string keyJson = kvClient.GetSecret("GoogleServiceAccountKeyJson").Value.Value;
+ 
             var cred = GoogleCredential.FromJson(keyJson).CreateScoped(new string[] { "https://www.googleapis.com/auth/analytics.readonly" });
             var token = await cred.UnderlyingCredential.GetAccessTokenForRequestAsync();
  
